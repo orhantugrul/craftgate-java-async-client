@@ -1,15 +1,13 @@
-package io.craftgate.common;
+package io.craftgate.common.util;
 
-import java.net.URLDecoder;
-import java.nio.charset.StandardCharsets;
+import io.craftgate.common.exception.NoSha256AlgorithmException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Base64;
 import java.util.HexFormat;
-import java.util.Optional;
 
-public final class Crypto {
-  private Crypto() {
+public final class Cryptology {
+  private Cryptology() {
     throw new IllegalStateException();
   }
 
@@ -41,23 +39,5 @@ public final class Crypto {
       throw new NoSha256AlgorithmException();
     }
   }
-
-  public static String sign(
-      final Credentials credentials,
-      final String url,
-      final Object payload,
-      final String random) {
-    final var secret = credentials.apiKey() + credentials.secretKey();
-    final var decodedUrl = URLDecoder.decode(url, StandardCharsets.UTF_8);
-    final var json = Optional.ofNullable(payload).map(Json::to).orElse("");
-
-    final var encode = Crypto.base64(secret + decodedUrl + json + random);
-    return Crypto.sha256(encode);
-  }
 }
 
-class NoSha256AlgorithmException extends RuntimeException {
-  NoSha256AlgorithmException() {
-    super("SHA-256 algorithm not found");
-  }
-}

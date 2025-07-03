@@ -1,7 +1,7 @@
 package io.craftgate.http;
 
 
-import io.craftgate.common.Json;
+import io.craftgate.common.util.Json;
 import java.net.http.HttpRequest.BodyPublishers;
 import java.net.http.HttpResponse.BodyHandlers;
 import java.nio.charset.StandardCharsets;

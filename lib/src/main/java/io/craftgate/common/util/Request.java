@@ -1,14 +1,48 @@
-package io.craftgate.common;
+package io.craftgate.common.util;
 
+import io.craftgate.common.data.Credentials;
+import io.craftgate.common.data.Options;
+import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.util.Map;
+import java.util.Optional;
 import java.util.StringJoiner;
 import java.util.UUID;
 
-public final class Requests {
-  private Requests() {
+public final class Request {
+  private Request() {
     throw new IllegalStateException();
+  }
+
+  /**
+   * Constructs a URL by combining the base URL from the provided {@link Options} object with the
+   * specified path and an optional parameterizable query string.
+   *
+   * @param options the configuration options containing the base URL
+   * @param path    the specific endpoint path to be appended to the base URL
+   * @return the full URL as a string
+   */
+  public static String url(final Options options, final String path) {
+    return url(options, path, null);
+  }
+
+  /**
+   * Constructs a URL by combining the base URL from {@link Options}, the specified path, and an
+   * optional query string generated from the {@link Parameterizable} object.
+   *
+   * @param options         the configuration options containing the base URL and other settings
+   * @param path            the specific path to be appended to the base URL
+   * @param parameterizable an optional object whose parameters will be converted into an encoded
+   *                        query string and appended to the URL
+   * @return the complete URL constructed with the base URL, path, and optional query string
+   */
+  public static String url(
+      final Options options,
+      final String path,
+      final Parameterizable parameterizable) {
+    final var query = Optional.ofNullable(parameterizable).map(Request::query).orElse("");
+    return options.base() + path + query;
   }
 
   /**
@@ -61,8 +95,13 @@ public final class Requests {
       final Object payload,
       final Credentials credentials,
       final Options options) {
+    final var secret = credentials.apiKey() + credentials.secretKey();
+    final var decodedUrl = URLDecoder.decode(url, StandardCharsets.UTF_8);
+    final var json = Optional.ofNullable(payload).map(Json::to).orElse("");
     final var random = UUID.randomUUID().toString();
-    final var signature = Crypto.sign(credentials, url, payload, random);
+
+    final var encode = Cryptology.base64(secret + decodedUrl + json + random);
+    final var signature = Cryptology.sha256(encode);
 
     return Map.ofEntries(
         Map.entry("x-api-key", credentials.apiKey()),

@@ -1,4 +1,4 @@
-package io.craftgate.common;
+package io.craftgate.common.util;
 
 import java.util.Map;
 

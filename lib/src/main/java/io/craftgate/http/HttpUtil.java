@@ -1,7 +1,7 @@
 package io.craftgate.http;
 
 import com.google.gson.reflect.TypeToken;
-import io.craftgate.common.Json;
+import io.craftgate.common.util.Json;
 import java.net.HttpURLConnection;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;

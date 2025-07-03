@@ -1,4 +1,4 @@
-package io.craftgate.common;
+package io.craftgate.common.data;
 
 import java.util.Optional;
 
