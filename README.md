@@ -1,6 +1,8 @@
-# Craftgate Java Client
+# craftgate-java-async-client
 
-A comprehensive Java client library for integrating with the Craftgate payment gateway API. This library provides easy-to-use interfaces for payment processing, fraud detection, settlement management, and more.
+A comprehensive Java client library for integrating with the Craftgate payment gateway API. This
+library provides easy-to-use interfaces for payment processing, fraud detection, settlement
+management, and more.
 
 ## 🤝 Contributing
 
