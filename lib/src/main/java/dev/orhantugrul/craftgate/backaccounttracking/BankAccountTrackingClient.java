@@ -1,0 +1,36 @@
+package dev.orhantugrul.craftgate.backaccounttracking;
+
+import dev.orhantugrul.craftgate.common.data.Credentials;
+import dev.orhantugrul.craftgate.common.data.Options;
+import dev.orhantugrul.craftgate.common.util.Request;
+import dev.orhantugrul.craftgate.http.HttpClient;
+import java.util.Arrays;
+import java.util.List;
+import java.util.concurrent.CompletableFuture;
+
+
+public final class BankAccountTrackingClient {
+  private static final String ENDPOINT =
+      "/bank-account-tracking/v1/merchant-bank-account-trackings/records";
+
+  private final Credentials credentials;
+  private final Options options;
+
+  public BankAccountTrackingClient(final Credentials credentials, final Options options) {
+    this.credentials = credentials;
+    this.options = options;
+  }
+
+  public CompletableFuture<List<BankAccountTrackingData>> getRecords(
+      final BankAccountTrackingParameters bankAccountTrackingParameters) {
+    final var url = Request.url(options, ENDPOINT, bankAccountTrackingParameters);
+    final var headers = Request.headers(url, credentials, options);
+    return HttpClient.get(url, headers, BankAccountTrackingData[].class).thenApply(Arrays::asList);
+  }
+
+  public CompletableFuture<BankAccountTrackingData> getRecord(final Long id) {
+    final var url = Request.url(options, ENDPOINT + "/" + id);
+    final var headers = Request.headers(url, credentials, options);
+    return HttpClient.get(url, headers, BankAccountTrackingData.class);
+  }
+}
