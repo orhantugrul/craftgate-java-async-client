@@ -19,28 +19,28 @@ public final class Request {
    * Constructs a URL by combining the base URL from the provided {@link Options} object with the
    * specified path and an optional parameterizable query string.
    *
-   * @param options the configuration options containing the base URL
    * @param path    the specific endpoint path to be appended to the base URL
+   * @param options the configuration options containing the base URL
    * @return the full URL as a string
    */
-  public static String url(final Options options, final String path) {
-    return url(options, path, null);
+  public static String url(final String path, final Options options) {
+    return url(path, null, options);
   }
 
   /**
    * Constructs a URL by combining the base URL from {@link Options}, the specified path, and an
    * optional query string generated from the {@link Parameterizable} object.
    *
-   * @param options         the configuration options containing the base URL and other settings
    * @param path            the specific path to be appended to the base URL
    * @param parameterizable an optional object whose parameters will be converted into an encoded
+   * @param options         the configuration options containing the base URL and other settings
    *                        query string and appended to the URL
    * @return the complete URL constructed with the base URL, path, and optional query string
    */
   public static String url(
-      final Options options,
       final String path,
-      final Parameterizable parameterizable) {
+      final Parameterizable parameterizable,
+      final Options options) {
     final var query = Optional.ofNullable(parameterizable).map(Request::query).orElse("");
     return options.base() + path + query;
   }

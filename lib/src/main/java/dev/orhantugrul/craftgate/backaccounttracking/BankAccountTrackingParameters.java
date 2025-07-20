@@ -1,5 +1,6 @@
 package dev.orhantugrul.craftgate.backaccounttracking;
 
+import dev.orhantugrul.craftgate.common.data.Currency;
 import dev.orhantugrul.craftgate.common.util.Parameterizable;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
