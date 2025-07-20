@@ -1,4 +1,4 @@
-package dev.orhantugrul.craftgate.backaccounttracking;
+package dev.orhantugrul.craftgate.common.data;
 
 public enum Currency {
   TRY("TRY"),

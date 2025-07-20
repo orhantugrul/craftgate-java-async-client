@@ -8,10 +8,9 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
-
 public final class BankAccountTrackingClient {
   private static final String ENDPOINT =
-      "/bank-account-tracking/v1/merchant-bank-account-trackings/records";
+      "/bank-account-tracking/v1/merchant-bank-account-trackings";
 
   private final Credentials credentials;
   private final Options options;
@@ -23,13 +22,13 @@ public final class BankAccountTrackingClient {
 
   public CompletableFuture<List<BankAccountTrackingData>> getRecords(
       final BankAccountTrackingParameters bankAccountTrackingParameters) {
-    final var url = Request.url(options, ENDPOINT, bankAccountTrackingParameters);
+    final var url = Request.url(ENDPOINT + "/records", bankAccountTrackingParameters, options);
     final var headers = Request.headers(url, credentials, options);
     return HttpClient.get(url, headers, BankAccountTrackingData[].class).thenApply(Arrays::asList);
   }
 
   public CompletableFuture<BankAccountTrackingData> getRecord(final Long id) {
-    final var url = Request.url(options, ENDPOINT + "/" + id);
+    final var url = Request.url(ENDPOINT + "/records" + id, options);
     final var headers = Request.headers(url, credentials, options);
     return HttpClient.get(url, headers, BankAccountTrackingData.class);
   }
