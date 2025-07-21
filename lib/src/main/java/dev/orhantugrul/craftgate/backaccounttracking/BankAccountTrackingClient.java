@@ -20,16 +20,16 @@ public final class BankAccountTrackingClient {
     this.options = options;
   }
 
-  public CompletableFuture<List<BankAccountTrackingData>> getRecords(
+  public CompletableFuture<List<BankAccountRecord>> getRecords(
       final BankAccountTrackingParameters bankAccountTrackingParameters) {
     final var url = Request.url(ENDPOINT + "/records", bankAccountTrackingParameters, options);
     final var headers = Request.headers(url, credentials, options);
-    return HttpClient.get(url, headers, BankAccountTrackingData[].class).thenApply(Arrays::asList);
+    return HttpClient.get(url, headers, BankAccountRecord[].class).thenApply(Arrays::asList);
   }
 
-  public CompletableFuture<BankAccountTrackingData> getRecord(final Long id) {
+  public CompletableFuture<BankAccountRecord> getRecord(final Long id) {
     final var url = Request.url(ENDPOINT + "/records" + id, options);
     final var headers = Request.headers(url, credentials, options);
-    return HttpClient.get(url, headers, BankAccountTrackingData.class);
+    return HttpClient.get(url, headers, BankAccountRecord.class);
   }
 }

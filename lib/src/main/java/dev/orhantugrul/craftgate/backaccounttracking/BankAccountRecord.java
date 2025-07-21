@@ -6,7 +6,7 @@ import dev.orhantugrul.craftgate.common.data.Type;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
-public record BankAccountTrackingData(
+public record BankAccountRecord(
     Long id,
     String key,
     Currency currency,

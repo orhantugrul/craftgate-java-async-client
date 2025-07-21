@@ -16,7 +16,8 @@ public record BankAccountTrackingParameters(
     LocalDateTime minRecordDate,
     LocalDateTime maxRecordDate,
     Integer page,
-    Integer size) implements Parameterizable {
+    Integer size)
+    implements Parameterizable {
   public BankAccountTrackingParameters {
     Objects.requireNonNull(currency);
     page = Optional.ofNullable(page).orElse(0);
